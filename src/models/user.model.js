@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const enums = require('../utils/enums');
 
 const userSchema = mongoose.Schema(
   {
@@ -34,33 +35,16 @@ const userSchema = mongoose.Schema(
     },
     mobile_number: {
       type: Number,
-      validate(value) {
-        if (value < 0) {
-          throw new Error('enter correct phone number');
-        }
-      },
+      integer: true,
     },
     age: {
       type: Number,
-      validate(value) {
-        if (value < 0) {
-          throw new Error('age must be positive number');
-        }
-      },
-    },
-    address: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Address',
-      required: true,
-    },
-    cart: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Cart',
+      integer: true,
     },
     role: {
       type: String,
       default: 'Customer',
-      enum: ['Seller', 'Customer', 'Admin'],
+      enum: enums.role,
     },
     tokens: [
       {
@@ -116,11 +100,6 @@ userSchema.pre('save', async function (next) {
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }
-  next();
-});
-userSchema.pre('remove', async function (next) {
-  const user = this;
-  await user.deleteOne({ owner: user._id });
   next();
 });
 

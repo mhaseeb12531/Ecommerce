@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const enums = require('../utils/enums');
 
 const addressSchema = mongoose.Schema(
   {
@@ -6,6 +7,7 @@ const addressSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxLength: 25,
     },
     street: {
       type: String,
@@ -20,7 +22,12 @@ const addressSchema = mongoose.Schema(
     },
     state: {
       type: String,
-      enum: ['punjab', 'sindh', 'kpk', 'balochistan'],
+      enum: enums.state,
+      required: true,
+    },
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     defaultAddress: {

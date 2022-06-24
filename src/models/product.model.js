@@ -1,19 +1,29 @@
 const mongoose = require('mongoose');
 
+const enums = require('../utils/enums');
+
 const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      upperCase: true,
+      maxLength: 40,
     },
     price: {
       type: Number,
       required: true,
+      integer: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      integer: true,
     },
     status: {
       type: String,
       required: true,
-      enum: ['sold out', 'available'],
+      enum: enums.status,
     },
     description: {
       type: String,

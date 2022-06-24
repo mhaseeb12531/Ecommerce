@@ -20,7 +20,6 @@ router.post('/product', validate(productValidation.createProduct), authSeller, a
 router.get('/product', validate(productValidation.getProducts), authAdmin, async (req, res) => {
   try {
     const product = await Product.find();
-
     if (!product) {
       return res.status(404).send();
     }

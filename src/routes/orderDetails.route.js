@@ -19,7 +19,6 @@ router.post('/orderDetails', validate(orderDetailsValidation.createOrderDetails)
 router.get('/orderDetails', validate(orderDetailsValidation.getAllOrderDetails), authAdmin, async (req, res) => {
   try {
     const orderDetails = await OrderDetails.find();
-
     if (!orderDetails) {
       return res.status(404).send();
     }

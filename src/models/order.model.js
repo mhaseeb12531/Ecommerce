@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema(
   {
-    bill: {
+    totalAmount: {
       type: Number,
       required: true,
     },

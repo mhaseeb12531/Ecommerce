@@ -20,7 +20,6 @@ router.post('/onlineShop', validate(onlineShopValidation.createOnlineShop), auth
 router.get('/onlineShop', validate(onlineShopValidation.getAllOnlineShopes), authAdmin, async (req, res) => {
   try {
     const onlineShop = await OnlineShop.find();
-
     if (!onlineShop) {
       return res.status(404).send();
     }

@@ -5,7 +5,9 @@ const onlineShopSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
+      lowerCase: true,
       unique: true,
+      maxLength: 25,
     },
     category: {
       type: String,

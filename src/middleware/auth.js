@@ -4,7 +4,7 @@ const User = require('../models/user.model');
 const authAdmin = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, 'mysignatured');
+    const decoded = jwt.verify(token, process.env.SIGNATURE);
 
     const user = await User.findOne({
       _id: decoded._id,
@@ -30,7 +30,7 @@ const authAdmin = async (req, res, next) => {
 const authSeller = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, 'mysignatured');
+    const decoded = jwt.verify(token, process.env.SIGNATURE);
 
     const user = await User.findOne({
       _id: decoded._id,
@@ -56,7 +56,7 @@ const authSeller = async (req, res, next) => {
 const authCustomer = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, 'mysignatured');
+    const decoded = jwt.verify(token, process.env.SIGNATURE);
 
     const user = await User.findOne({
       _id: decoded._id,
@@ -82,7 +82,7 @@ const authCustomer = async (req, res, next) => {
 const authSellerOrAdmin = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, 'mysignatured');
+    const decoded = jwt.verify(token, process.env.SIGNATURE);
 
     const user = await User.findOne({
       _id: decoded._id,
@@ -108,7 +108,7 @@ const authSellerOrAdmin = async (req, res, next) => {
 const authSellerOrCustomer = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, 'mysignatured');
+    const decoded = jwt.verify(token, process.env.SIGNATURE);
 
     const user = await User.findOne({
       _id: decoded._id,
