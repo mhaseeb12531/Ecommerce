@@ -59,6 +59,7 @@ const userSchema = mongoose.Schema(
     timestamp: true,
   }
 );
+
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, 'mysignatured');
@@ -74,7 +75,7 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 userSchema.statics.findByCredentials = async (email, password) => {
-  const user = await this.findOne({ email });
+  const user = await User.findOne({ email });
   if (user && user.role !== 'Seller' && user.role !== 'Customer') {
     throw new Error('unable to login');
   }
@@ -85,10 +86,12 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 userSchema.statics.findByCredentialsAdmin = async (email, password) => {
-  const user = await this.findOne({ email });
-  if (user && user.role !== 'Admin') {
+  const user = await User.findOne({ email });
+
+  if (!user || user.role !== 'Admin') {
     throw new Error('unable to login');
   }
+
   const isMatch = await bcrypt.compare(password, user.password);
   if (!user || !isMatch) {
     throw new Error('unable to login');

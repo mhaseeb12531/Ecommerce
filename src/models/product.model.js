@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const enums = require('../utils/enums');
+const { status } = require('../utils/enums');
 
 const productSchema = mongoose.Schema(
   {
@@ -23,7 +23,7 @@ const productSchema = mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: enums.status,
+      enum: status,
     },
     description: {
       type: String,

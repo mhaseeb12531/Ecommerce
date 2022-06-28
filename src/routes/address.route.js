@@ -9,7 +9,13 @@ const router = new express.Router();
 
 router.post('/address', validate(addressValidation.createAddress), authSellerOrCustomer, async (req, res) => {
   try {
-    const address = await Address.create(req.body);
+    const add = await Address.findOne({ user: req.user._id });
+    let address;
+    if (add) {
+      address = await Address.create({ ...req.body, customer: req.user, default: false });
+    } else {
+      address = await Address.create({ ...req.body, user: req.user, default: true });
+    }
     res.status(200).send(address);
   } catch (e) {
     res.status(400).send(e);
@@ -37,6 +43,29 @@ router.get('/address/:id', validate(addressValidation.getAddress), authAdmin, as
     res.status(200).send(address);
   } catch (e) {
     res.status(500).send(e);
+  }
+});
+
+router.patch('/address/default/:id', validate(addressValidation.getAddress), authSellerOrCustomer, async (req, res) => {
+  try {
+    const address = await Address.findOne({ customer: req.user.id, defaultAddress: true });
+    if (!address) {
+      return res.status(404).send('not found');
+    }
+    address.defaultAddress = false;
+    await address.save();
+
+    const DefaultAddress = await Address.findByIdAndUpdate(
+      req.params.id,
+      { defaultAddress: true },
+      {
+        new: true,
+      }
+    );
+    res.status(200).send({ DefaultAddress });
+  } catch (e) {
+    // console.log(e);
+    res.status(500).send({ message: e.message });
   }
 });
 

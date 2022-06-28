@@ -25,17 +25,17 @@ router.post('/user/login', validate(userValidation.login), async (req, res) => {
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (e) {
-    res.status(400).send();
+    res.status(400).send({ message: e.message });
   }
 });
 
-router.post('/user/admin-login', validate(userValidation.login), async (req, res) => {
+router.post('/user/admin/login', validate(userValidation.login), async (req, res) => {
   try {
     const user = await User.findByCredentialsAdmin(req.body.email, req.body.password);
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (e) {
-    res.status(400).send();
+    res.status(400).send(e);
   }
 });
 
@@ -147,4 +147,5 @@ router.delete('/user/:id', validate(userValidation.deleteUser), authSeller, asyn
     res.status(500).send();
   }
 });
+
 module.exports = router;

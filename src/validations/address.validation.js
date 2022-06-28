@@ -8,7 +8,6 @@ const createAddress = {
     area: Joi.string().optional(),
     city: Joi.string().required(),
     state: Joi.string().required(),
-    defaultAddress: Joi.boolean().required(),
   }),
 };
 

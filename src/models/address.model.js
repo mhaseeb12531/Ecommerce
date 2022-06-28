@@ -32,7 +32,7 @@ const addressSchema = mongoose.Schema(
     },
     defaultAddress: {
       type: Boolean,
-      required: true,
+      required: false,
     },
   },
   {
